@@ -1801,6 +1801,7 @@
 <a href="#1799" id="1799">1799</a>
 <a href="#1800" id="1800">1800</a>
 <a href="#1801" id="1801">1801</a>
+<a href="#1802" id="1802">1802</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Generic implementations of PyO3 Asyncio utilities that can be used for any Rust runtime
 //!
 //! Items marked with
@@ -3095,6 +3096,7 @@
 /// # }
 /// ```
 </span><span class="attr">#[cfg(feature = <span class="string">"unstable-streams"</span>)]
+#[allow(unused_must_use)] </span><span class="comment">// False positive unused lint on `R::spawn`
 </span><span class="kw">pub fn </span>into_stream_with_locals_v1&lt;<span class="lifetime">'p</span>, R&gt;(
     locals: TaskLocals,
     gen: Bound&lt;<span class="lifetime">'p</span>, PyAny&gt;,
