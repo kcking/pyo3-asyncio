@@ -1052,7 +1052,7 @@
 /// #
 /// # pyo3::prepare_freethreaded_python();
 /// # Python::with_gil(|py| -&gt; PyResult&lt;()&gt; {
-/// # let event_loop = py.import("asyncio")?.call_method0("new_event_loop")?;
+/// # let event_loop = py.import_bound("asyncio")?.call_method0("new_event_loop")?;
 /// pyo3_asyncio::tokio::run_until_complete(event_loop, async move {
 ///     tokio::time::sleep(Duration::from_secs(1)).await;
 ///     Ok(())
@@ -1402,7 +1402,7 @@
 /// async fn py_sleep(seconds: f32) -&gt; PyResult&lt;()&gt; {
 ///     let test_mod = Python::with_gil(|py| -&gt; PyResult&lt;PyObject&gt; {
 ///         Ok(
-///             PyModule::from_code(
+///             PyModule::from_code_bound(
 ///                 py,
 ///                 PYTHON_CODE,
 ///                 "test_into_future/test_mod.py",
@@ -1416,7 +1416,7 @@
 ///         pyo3_asyncio::tokio::into_future(
 ///             test_mod
 ///                 .call_method1(py, "py_sleep", (seconds.into_py(py),))?
-///                 .as_ref(py),
+///                 .bind(py),
 ///         )
 ///     })?
 ///     .await?;
@@ -1457,7 +1457,7 @@
 /// # #[pyo3_asyncio::tokio::main]
 /// # async fn main() -&gt; PyResult&lt;()&gt; {
 /// let stream = Python::with_gil(|py| {
-///     let test_mod = PyModule::from_code(
+///     let test_mod = PyModule::from_code_bound(
 ///         py,
 ///         TEST_MOD,
 ///         "test_rust_coroutine/test_mod.py",
@@ -1471,7 +1471,7 @@
 /// })?;
 ///
 /// let vals = stream
-///     .map(|item| Python::with_gil(|py| -&gt; PyResult&lt;i32&gt; { Ok(item?.as_ref(py).extract()?) }))
+///     .map(|item| Python::with_gil(|py| -&gt; PyResult&lt;i32&gt; { Ok(item?.bind(py).extract()?) }))
 ///     .try_collect::&lt;Vec&lt;i32&gt;&gt;()
 ///     .await?;
 ///
@@ -1485,7 +1485,7 @@
 </span><span class="attr">#[cfg(feature = <span class="string">"unstable-streams"</span>)]
 </span><span class="kw">pub fn </span>into_stream_with_locals_v1&lt;<span class="lifetime">'p</span>&gt;(
     locals: TaskLocals,
-    gen: <span class="kw-2">&amp;</span><span class="lifetime">'p </span>PyAny,
+    gen: Bound&lt;<span class="lifetime">'p</span>, PyAny&gt;,
 ) -&gt; PyResult&lt;<span class="kw">impl </span>futures::Stream&lt;Item = PyResult&lt;PyObject&gt;&gt; + <span class="lifetime">'static</span>&gt; {
     generic::into_stream_with_locals_v1::&lt;TokioRuntime&gt;(locals, gen)
 }
@@ -1517,7 +1517,7 @@
 /// # #[pyo3_asyncio::tokio::main]
 /// # async fn main() -&gt; PyResult&lt;()&gt; {
 /// let stream = Python::with_gil(|py| {
-///     let test_mod = PyModule::from_code(
+///     let test_mod = PyModule::from_code_bound(
 ///         py,
 ///         TEST_MOD,
 ///         "test_rust_coroutine/test_mod.py",
@@ -1528,7 +1528,7 @@
 /// })?;
 ///
 /// let vals = stream
-///     .map(|item| Python::with_gil(|py| -&gt; PyResult&lt;i32&gt; { Ok(item?.as_ref(py).extract()?) }))
+///     .map(|item| Python::with_gil(|py| -&gt; PyResult&lt;i32&gt; { Ok(item?.bind(py).extract()?) }))
 ///     .try_collect::&lt;Vec&lt;i32&gt;&gt;()
 ///     .await?;
 ///
@@ -1541,7 +1541,7 @@
 /// ```
 </span><span class="attr">#[cfg(feature = <span class="string">"unstable-streams"</span>)]
 </span><span class="kw">pub fn </span>into_stream_v1&lt;<span class="lifetime">'p</span>&gt;(
-    gen: <span class="kw-2">&amp;</span><span class="lifetime">'p </span>PyAny,
+    gen: Bound&lt;<span class="lifetime">'p</span>, PyAny&gt;,
 ) -&gt; PyResult&lt;<span class="kw">impl </span>futures::Stream&lt;Item = PyResult&lt;PyObject&gt;&gt; + <span class="lifetime">'static</span>&gt; {
     generic::into_stream_v1::&lt;TokioRuntime&gt;(gen)
 }
@@ -1574,7 +1574,7 @@
 /// # #[pyo3_asyncio::tokio::main]
 /// # async fn main() -&gt; PyResult&lt;()&gt; {
 /// let stream = Python::with_gil(|py| {
-///     let test_mod = PyModule::from_code(
+///     let test_mod = PyModule::from_code_bound(
 ///         py,
 ///         TEST_MOD,
 ///         "test_rust_coroutine/test_mod.py",
@@ -1588,7 +1588,7 @@
 /// })?;
 ///
 /// let vals = stream
-///     .map(|item| Python::with_gil(|py| -&gt; PyResult&lt;i32&gt; { Ok(item.as_ref(py).extract()?) }))
+///     .map(|item| Python::with_gil(|py| -&gt; PyResult&lt;i32&gt; { Ok(item.bind(py).extract()?) }))
 ///     .try_collect::&lt;Vec&lt;i32&gt;&gt;()
 ///     .await?;
 ///
@@ -1602,7 +1602,7 @@
 </span><span class="attr">#[cfg(feature = <span class="string">"unstable-streams"</span>)]
 </span><span class="kw">pub fn </span>into_stream_with_locals_v2&lt;<span class="lifetime">'p</span>&gt;(
     locals: TaskLocals,
-    gen: <span class="kw-2">&amp;</span><span class="lifetime">'p </span>PyAny,
+    gen: Bound&lt;<span class="lifetime">'p</span>, PyAny&gt;,
 ) -&gt; PyResult&lt;<span class="kw">impl </span>futures::Stream&lt;Item = PyObject&gt; + <span class="lifetime">'static</span>&gt; {
     generic::into_stream_with_locals_v2::&lt;TokioRuntime&gt;(locals, gen)
 }
@@ -1634,7 +1634,7 @@
 /// # #[pyo3_asyncio::tokio::main]
 /// # async fn main() -&gt; PyResult&lt;()&gt; {
 /// let stream = Python::with_gil(|py| {
-///     let test_mod = PyModule::from_code(
+///     let test_mod = PyModule::from_code_bound(
 ///         py,
 ///         TEST_MOD,
 ///         "test_rust_coroutine/test_mod.py",
@@ -1645,7 +1645,7 @@
 /// })?;
 ///
 /// let vals = stream
-///     .map(|item| Python::with_gil(|py| -&gt; PyResult&lt;i32&gt; { Ok(item.as_ref(py).extract()?) }))
+///     .map(|item| Python::with_gil(|py| -&gt; PyResult&lt;i32&gt; { Ok(item.bind(py).extract()?) }))
 ///     .try_collect::&lt;Vec&lt;i32&gt;&gt;()
 ///     .await?;
 ///
@@ -1658,7 +1658,7 @@
 /// ```
 </span><span class="attr">#[cfg(feature = <span class="string">"unstable-streams"</span>)]
 </span><span class="kw">pub fn </span>into_stream_v2&lt;<span class="lifetime">'p</span>&gt;(
-    gen: <span class="kw-2">&amp;</span><span class="lifetime">'p </span>PyAny,
+    gen: Bound&lt;<span class="lifetime">'p</span>, PyAny&gt;,
 ) -&gt; PyResult&lt;<span class="kw">impl </span>futures::Stream&lt;Item = PyObject&gt; + <span class="lifetime">'static</span>&gt; {
     generic::into_stream_v2::&lt;TokioRuntime&gt;(gen)
 }

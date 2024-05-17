@@ -21,7 +21,7 @@ async def py_sleep(duration):
 <span class="kw">async fn </span>py_sleep(seconds: f32) -&gt; PyResult&lt;()&gt; {
     <span class="kw">let </span>test_mod = Python::with_gil(|py| -&gt; PyResult&lt;PyObject&gt; {
         <span class="prelude-val">Ok</span>(
-            PyModule::from_code(
+            PyModule::from_code_bound(
                 py,
                 PYTHON_CODE,
                 <span class="string">"test_into_future/test_mod.py"</span>,
@@ -35,7 +35,7 @@ async def py_sleep(duration):
         pyo3_asyncio::generic::into_future::&lt;MyCustomRuntime&gt;(
             test_mod
                 .call_method1(py, <span class="string">"py_sleep"</span>, (seconds.into_py(py),))<span class="question-mark">?
-                </span>.as_ref(py),
+                </span>.bind(py),
         )
     })<span class="question-mark">?
     </span>.<span class="kw">await</span><span class="question-mark">?</span>;

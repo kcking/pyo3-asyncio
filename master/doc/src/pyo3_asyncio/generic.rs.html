@@ -1984,7 +1984,7 @@
 /// # use pyo3::prelude::*;
 /// #
 /// # Python::with_gil(|py| -&gt; PyResult&lt;()&gt; {
-/// # let event_loop = py.import("asyncio")?.call_method0("new_event_loop")?;
+/// # let event_loop = py.import_bound("asyncio")?.call_method0("new_event_loop")?;
 /// # #[cfg(feature = "tokio-runtime")]
 /// pyo3_asyncio::generic::run_until_complete::&lt;MyCustomRuntime, _, _&gt;(event_loop, async move {
 ///     tokio::time::sleep(Duration::from_secs(1)).await;
@@ -2242,7 +2242,7 @@
 /// async fn py_sleep(seconds: f32) -&gt; PyResult&lt;()&gt; {
 ///     let test_mod = Python::with_gil(|py| -&gt; PyResult&lt;PyObject&gt; {
 ///         Ok(
-///             PyModule::from_code(
+///             PyModule::from_code_bound(
 ///                 py,
 ///                 PYTHON_CODE,
 ///                 "test_into_future/test_mod.py",
@@ -2256,7 +2256,7 @@
 ///         pyo3_asyncio::generic::into_future::&lt;MyCustomRuntime&gt;(
 ///             test_mod
 ///                 .call_method1(py, "py_sleep", (seconds.into_py(py),))?
-///                 .as_ref(py),
+///                 .bind(py),
 ///         )
 ///     })?
 ///     .await?;
@@ -3071,7 +3071,7 @@
 ///
 /// # async fn test_async_gen() -&gt; PyResult&lt;()&gt; {
 /// let stream = Python::with_gil(|py| {
-///     let test_mod = PyModule::from_code(
+///     let test_mod = PyModule::from_code_bound(
 ///         py,
 ///         TEST_MOD,
 ///         "test_rust_coroutine/test_mod.py",
@@ -3085,7 +3085,7 @@
 /// })?;
 ///
 /// let vals = stream
-///     .map(|item| Python::with_gil(|py| -&gt; PyResult&lt;i32&gt; { Ok(item?.as_ref(py).extract()?) }))
+///     .map(|item| Python::with_gil(|py| -&gt; PyResult&lt;i32&gt; { Ok(item?.bind(py).extract()?) }))
 ///     .try_collect::&lt;Vec&lt;i32&gt;&gt;()
 ///     .await?;
 ///
@@ -3097,7 +3097,7 @@
 </span><span class="attr">#[cfg(feature = <span class="string">"unstable-streams"</span>)]
 </span><span class="kw">pub fn </span>into_stream_with_locals_v1&lt;<span class="lifetime">'p</span>, R&gt;(
     locals: TaskLocals,
-    gen: <span class="kw-2">&amp;</span><span class="lifetime">'p </span>PyAny,
+    gen: Bound&lt;<span class="lifetime">'p</span>, PyAny&gt;,
 ) -&gt; PyResult&lt;<span class="kw">impl </span>futures::Stream&lt;Item = PyResult&lt;PyObject&gt;&gt; + <span class="lifetime">'static</span>&gt;
 <span class="kw">where
     </span>R: Runtime,
@@ -3218,7 +3218,7 @@
 ///
 /// # async fn test_async_gen() -&gt; PyResult&lt;()&gt; {
 /// let stream = Python::with_gil(|py| {
-///     let test_mod = PyModule::from_code(
+///     let test_mod = PyModule::from_code_bound(
 ///         py,
 ///         TEST_MOD,
 ///         "test_rust_coroutine/test_mod.py",
@@ -3229,7 +3229,7 @@
 /// })?;
 ///
 /// let vals = stream
-///     .map(|item| Python::with_gil(|py| -&gt; PyResult&lt;i32&gt; { Ok(item?.as_ref(py).extract()?) }))
+///     .map(|item| Python::with_gil(|py| -&gt; PyResult&lt;i32&gt; { Ok(item?.bind(py).extract()?) }))
 ///     .try_collect::&lt;Vec&lt;i32&gt;&gt;()
 ///     .await?;
 ///
@@ -3240,7 +3240,7 @@
 /// ```
 </span><span class="attr">#[cfg(feature = <span class="string">"unstable-streams"</span>)]
 </span><span class="kw">pub fn </span>into_stream_v1&lt;<span class="lifetime">'p</span>, R&gt;(
-    gen: <span class="kw-2">&amp;</span><span class="lifetime">'p </span>PyAny,
+    gen: Bound&lt;<span class="lifetime">'p</span>, PyAny&gt;,
 ) -&gt; PyResult&lt;<span class="kw">impl </span>futures::Stream&lt;Item = PyResult&lt;PyObject&gt;&gt; + <span class="lifetime">'static</span>&gt;
 <span class="kw">where
     </span>R: Runtime + ContextExt,
@@ -3425,7 +3425,7 @@ async def forward(gen, sender):
 ///
 /// # async fn test_async_gen() -&gt; PyResult&lt;()&gt; {
 /// let stream = Python::with_gil(|py| {
-///     let test_mod = PyModule::from_code(
+///     let test_mod = PyModule::from_code_bound(
 ///         py,
 ///         TEST_MOD,
 ///         "test_rust_coroutine/test_mod.py",
@@ -3439,7 +3439,7 @@ async def forward(gen, sender):
 /// })?;
 ///
 /// let vals = stream
-///     .map(|item| Python::with_gil(|py| -&gt; PyResult&lt;i32&gt; { Ok(item.as_ref(py).extract()?) }))
+///     .map(|item| Python::with_gil(|py| -&gt; PyResult&lt;i32&gt; { Ok(item.bind(py).extract()?) }))
 ///     .try_collect::&lt;Vec&lt;i32&gt;&gt;()
 ///     .await?;
 ///
@@ -3451,7 +3451,7 @@ async def forward(gen, sender):
 </span><span class="attr">#[cfg(feature = <span class="string">"unstable-streams"</span>)]
 </span><span class="kw">pub fn </span>into_stream_with_locals_v2&lt;<span class="lifetime">'p</span>, R&gt;(
     locals: TaskLocals,
-    gen: <span class="kw-2">&amp;</span><span class="lifetime">'p </span>PyAny,
+    gen: Bound&lt;<span class="lifetime">'p</span>, PyAny&gt;,
 ) -&gt; PyResult&lt;<span class="kw">impl </span>futures::Stream&lt;Item = PyObject&gt; + <span class="lifetime">'static</span>&gt;
 <span class="kw">where
     </span>R: Runtime + ContextExt,
@@ -3460,7 +3460,7 @@ async def forward(gen, sender):
     <span class="kw">let </span>py = gen.py();
     <span class="kw">let </span>glue = GLUE_MOD
         .get_or_try_init(|| -&gt; PyResult&lt;PyObject&gt; {
-            <span class="prelude-val">Ok</span>(PyModule::from_code(
+            <span class="prelude-val">Ok</span>(PyModule::from_code_bound(
                 py,
                 STREAM_GLUE,
                 <span class="string">"pyo3_asyncio/pyo3_asyncio_glue.py"</span>,
@@ -3468,7 +3468,7 @@ async def forward(gen, sender):
             )<span class="question-mark">?
             </span>.into())
         })<span class="question-mark">?
-        </span>.as_ref(py);
+        </span>.bind(py);
 
     <span class="kw">let </span>(tx, rx) = mpsc::channel(<span class="number">10</span>);
 
@@ -3573,7 +3573,7 @@ async def forward(gen, sender):
 ///
 /// # async fn test_async_gen() -&gt; PyResult&lt;()&gt; {
 /// let stream = Python::with_gil(|py| {
-///     let test_mod = PyModule::from_code(
+///     let test_mod = PyModule::from_code_bound(
 ///         py,
 ///         TEST_MOD,
 ///         "test_rust_coroutine/test_mod.py",
@@ -3584,7 +3584,7 @@ async def forward(gen, sender):
 /// })?;
 ///
 /// let vals = stream
-///     .map(|item| Python::with_gil(|py| -&gt; PyResult&lt;i32&gt; { Ok(item.as_ref(py).extract()?) }))
+///     .map(|item| Python::with_gil(|py| -&gt; PyResult&lt;i32&gt; { Ok(item.bind(py).extract()?) }))
 ///     .try_collect::&lt;Vec&lt;i32&gt;&gt;()
 ///     .await?;
 ///
@@ -3595,7 +3595,7 @@ async def forward(gen, sender):
 /// ```
 </span><span class="attr">#[cfg(feature = <span class="string">"unstable-streams"</span>)]
 </span><span class="kw">pub fn </span>into_stream_v2&lt;<span class="lifetime">'p</span>, R&gt;(
-    gen: <span class="kw-2">&amp;</span><span class="lifetime">'p </span>PyAny,
+    gen: Bound&lt;<span class="lifetime">'p</span>, PyAny&gt;,
 ) -&gt; PyResult&lt;<span class="kw">impl </span>futures::Stream&lt;Item = PyObject&gt; + <span class="lifetime">'static</span>&gt;
 <span class="kw">where
     </span>R: Runtime + ContextExt,
