@@ -1270,7 +1270,7 @@
 ///         pyo3_asyncio::async_std::into_future(
 ///             test_mod
 ///                 .call_method1(py, "py_sleep", (seconds.into_py(py),))?
-///                 .bind(py),
+///                 .into_bound(py),
 ///         )
 ///     })?
 ///     .await?;

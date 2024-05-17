@@ -1987,7 +1987,7 @@
 /// # Python::with_gil(|py| -&gt; PyResult&lt;()&gt; {
 /// # let event_loop = py.import_bound("asyncio")?.call_method0("new_event_loop")?;
 /// # #[cfg(feature = "tokio-runtime")]
-/// pyo3_asyncio::generic::run_until_complete::&lt;MyCustomRuntime, _, _&gt;(event_loop, async move {
+/// pyo3_asyncio::generic::run_until_complete::&lt;MyCustomRuntime, _, _&gt;(&amp;event_loop, async move {
 ///     tokio::time::sleep(Duration::from_secs(1)).await;
 ///     Ok(())
 /// })?;

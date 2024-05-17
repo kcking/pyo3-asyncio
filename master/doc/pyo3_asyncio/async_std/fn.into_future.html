@@ -39,7 +39,7 @@ async def py_sleep(duration):
         pyo3_asyncio::async_std::into_future(
             test_mod
                 .call_method1(py, <span class="string">"py_sleep"</span>, (seconds.into_py(py),))<span class="question-mark">?
-                </span>.bind(py),
+                </span>.into_bound(py),
         )
     })<span class="question-mark">?
     </span>.<span class="kw">await</span><span class="question-mark">?</span>;

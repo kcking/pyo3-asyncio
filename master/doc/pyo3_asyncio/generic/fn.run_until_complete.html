@@ -13,7 +13,7 @@
 <li><code>fut</code> - The future to drive to completion</li>
 </ul>
 <h2 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h2>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code>pyo3_asyncio::generic::run_until_complete::&lt;MyCustomRuntime, <span class="kw">_</span>, <span class="kw">_</span>&gt;(event_loop, <span class="kw">async move </span>{
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code>pyo3_asyncio::generic::run_until_complete::&lt;MyCustomRuntime, <span class="kw">_</span>, <span class="kw">_</span>&gt;(<span class="kw-2">&amp;</span>event_loop, <span class="kw">async move </span>{
     tokio::time::sleep(Duration::from_secs(<span class="number">1</span>)).<span class="kw">await</span>;
     <span class="prelude-val">Ok</span>(())
 })<span class="question-mark">?</span>;</code></pre></div>

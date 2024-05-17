@@ -1296,7 +1296,7 @@
 ///             &amp;pyo3_asyncio::tokio::get_current_locals(py)?,
 ///             test_mod
 ///                 .call_method1(py, "py_sleep", (seconds.into_py(py),))?
-///                 .bind(py),
+///                 .into_bound(py),
 ///         )
 ///     })?
 ///     .await?;

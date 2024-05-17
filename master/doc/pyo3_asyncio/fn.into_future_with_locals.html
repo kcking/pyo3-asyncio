@@ -42,7 +42,7 @@ async def py_sleep(duration):
             <span class="kw-2">&amp;</span>pyo3_asyncio::tokio::get_current_locals(py)<span class="question-mark">?</span>,
             test_mod
                 .call_method1(py, <span class="string">"py_sleep"</span>, (seconds.into_py(py),))<span class="question-mark">?
-                </span>.bind(py),
+                </span>.into_bound(py),
         )
     })<span class="question-mark">?
     </span>.<span class="kw">await</span><span class="question-mark">?</span>;
