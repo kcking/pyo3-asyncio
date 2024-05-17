@@ -759,7 +759,7 @@
 //!
 //! # #[cfg(feature = "tokio-runtime")]
 //! #[pyfunction]
-//! fn sleep(py: Python) -&gt; PyResult&lt;&amp;PyAny&gt; {
+//! fn sleep(py: Python) -&gt; PyResult&lt;Bound&lt;PyAny&gt;&gt; {
 //!     // Construct the task locals structure with the current running loop and context
 //!     let locals = pyo3_asyncio::TaskLocals::with_running_loop(py)?.copy_context(py)?;
 //!
@@ -826,7 +826,7 @@
 //!
 //! # #[cfg(feature = "tokio-runtime")]
 //! #[pyfunction]
-//! fn sleep(py: Python) -&gt; PyResult&lt;&amp;PyAny&gt; {
+//! fn sleep(py: Python) -&gt; PyResult&lt;Bound&lt;PyAny&gt;&gt; {
 //!     // get the current event loop through task-local data
 //!     // OR `asyncio.get_running_loop` and `contextvars.copy_context`
 //!     let locals = pyo3_asyncio::tokio::get_current_locals(py)?;
@@ -853,7 +853,7 @@
 //!
 //! # #[cfg(feature = "tokio-runtime")]
 //! #[pyfunction]
-//! fn wrap_sleep(py: Python) -&gt; PyResult&lt;&amp;PyAny&gt; {
+//! fn wrap_sleep(py: Python) -&gt; PyResult&lt;Bound&lt;PyAny&gt;&gt; {
 //!     // get the current event loop through task-local data
 //!     // OR `asyncio.get_running_loop` and `contextvars.copy_context`
 //!     let locals = pyo3_asyncio::tokio::get_current_locals(py)?;
@@ -911,7 +911,7 @@
 //!
 //! # #[cfg(feature = "tokio-runtime")]
 //! #[pyfunction]
-//! fn sleep(py: Python) -&gt; PyResult&lt;&amp;PyAny&gt; {
+//! fn sleep(py: Python) -&gt; PyResult&lt;Bound&lt;PyAny&gt;&gt; {
 //!     pyo3_asyncio::tokio::future_into_py(py, async move {
 //!         let py_sleep = Python::with_gil(|py| {
 //!             pyo3_asyncio::tokio::into_future(
@@ -927,7 +927,7 @@
 //!
 //! # #[cfg(feature = "tokio-runtime")]
 //! #[pyfunction]
-//! fn wrap_sleep(py: Python) -&gt; PyResult&lt;&amp;PyAny&gt; {
+//! fn wrap_sleep(py: Python) -&gt; PyResult&lt;Bound&lt;PyAny&gt;&gt; {
 //!     pyo3_asyncio::tokio::future_into_py(py, async move {
 //!         let py_sleep = Python::with_gil(|py| {
 //!             pyo3_asyncio::tokio::into_future(sleep(py)?)

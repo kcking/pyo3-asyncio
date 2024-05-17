@@ -69,7 +69,7 @@ references at the callsite to use later on.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>pyo3::{wrap_pyfunction, prelude::<span class="kw-2">*</span>};
 
 <span class="attr">#[pyfunction]
-</span><span class="kw">fn </span>sleep(py: Python) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyAny&gt; {
+</span><span class="kw">fn </span>sleep(py: Python) -&gt; PyResult&lt;Bound&lt;PyAny&gt;&gt; {
     <span class="comment">// Construct the task locals structure with the current running loop and context
     </span><span class="kw">let </span>locals = pyo3_asyncio::TaskLocals::with_running_loop(py)<span class="question-mark">?</span>.copy_context(py)<span class="question-mark">?</span>;
 
@@ -129,7 +129,7 @@ runtime-specific feature, you can find the following functions in each runtime m
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>pyo3::prelude::<span class="kw-2">*</span>;
 
 <span class="attr">#[pyfunction]
-</span><span class="kw">fn </span>sleep(py: Python) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyAny&gt; {
+</span><span class="kw">fn </span>sleep(py: Python) -&gt; PyResult&lt;Bound&lt;PyAny&gt;&gt; {
     <span class="comment">// get the current event loop through task-local data
     // OR `asyncio.get_running_loop` and `contextvars.copy_context`
     </span><span class="kw">let </span>locals = pyo3_asyncio::tokio::get_current_locals(py)<span class="question-mark">?</span>;
@@ -155,7 +155,7 @@ runtime-specific feature, you can find the following functions in each runtime m
 }
 
 <span class="attr">#[pyfunction]
-</span><span class="kw">fn </span>wrap_sleep(py: Python) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyAny&gt; {
+</span><span class="kw">fn </span>wrap_sleep(py: Python) -&gt; PyResult&lt;Bound&lt;PyAny&gt;&gt; {
     <span class="comment">// get the current event loop through task-local data
     // OR `asyncio.get_running_loop` and `contextvars.copy_context`
     </span><span class="kw">let </span>locals = pyo3_asyncio::tokio::get_current_locals(py)<span class="question-mark">?</span>;
@@ -217,7 +217,7 @@ can be rewritten to be more compact:</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>pyo3::prelude::<span class="kw-2">*</span>;
 
 <span class="attr">#[pyfunction]
-</span><span class="kw">fn </span>sleep(py: Python) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyAny&gt; {
+</span><span class="kw">fn </span>sleep(py: Python) -&gt; PyResult&lt;Bound&lt;PyAny&gt;&gt; {
     pyo3_asyncio::tokio::future_into_py(py, <span class="kw">async move </span>{
         <span class="kw">let </span>py_sleep = Python::with_gil(|py| {
             pyo3_asyncio::tokio::into_future(
@@ -232,7 +232,7 @@ can be rewritten to be more compact:</p>
 }
 
 <span class="attr">#[pyfunction]
-</span><span class="kw">fn </span>wrap_sleep(py: Python) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyAny&gt; {
+</span><span class="kw">fn </span>wrap_sleep(py: Python) -&gt; PyResult&lt;Bound&lt;PyAny&gt;&gt; {
     pyo3_asyncio::tokio::future_into_py(py, <span class="kw">async move </span>{
         <span class="kw">let </span>py_sleep = Python::with_gil(|py| {
             pyo3_asyncio::tokio::into_future(sleep(py)<span class="question-mark">?</span>)

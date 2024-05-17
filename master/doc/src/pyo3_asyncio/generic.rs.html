@@ -2257,7 +2257,7 @@
 ///         pyo3_asyncio::generic::into_future::&lt;MyCustomRuntime&gt;(
 ///             test_mod
 ///                 .call_method1(py, "py_sleep", (seconds.into_py(py),))?
-///                 .bind(py),
+///                 .into_bound(py),
 ///         )
 ///     })?
 ///     .await?;
@@ -2364,7 +2364,7 @@
 ///
 /// /// Awaitable sleep function
 /// #[pyfunction]
-/// fn sleep_for&lt;'p&gt;(py: Python&lt;'p&gt;, secs: &amp;'p PyAny) -&gt; PyResult&lt;&amp;'p PyAny&gt; {
+/// fn sleep_for&lt;'p&gt;(py: Python&lt;'p&gt;, secs: Bound&lt;'p, PyAny&gt;) -&gt; PyResult&lt;Bound&lt;'p, PyAny&gt;&gt; {
 ///     let secs = secs.extract()?;
 ///     pyo3_asyncio::generic::future_into_py_with_locals::&lt;MyCustomRuntime, _, _&gt;(
 ///         py,
@@ -2636,7 +2636,7 @@
 ///
 /// /// Awaitable sleep function
 /// #[pyfunction]
-/// fn sleep_for&lt;'p&gt;(py: Python&lt;'p&gt;, secs: &amp;'p PyAny) -&gt; PyResult&lt;&amp;'p PyAny&gt; {
+/// fn sleep_for&lt;'p&gt;(py: Python&lt;'p&gt;, secs: Bound&lt;'p, PyAny&gt;) -&gt; PyResult&lt;Bound&lt;'p, PyAny&gt;&gt; {
 ///     let secs = secs.extract()?;
 ///     pyo3_asyncio::generic::future_into_py::&lt;MyCustomRuntime, _, _&gt;(py, async move {
 ///         MyCustomRuntime::sleep(Duration::from_secs(secs)).await;
@@ -2763,7 +2763,7 @@
 ///
 /// /// Awaitable sleep function
 /// #[pyfunction]
-/// fn sleep_for(py: Python, secs: u64) -&gt; PyResult&lt;&amp;PyAny&gt; {
+/// fn sleep_for(py: Python, secs: u64) -&gt; PyResult&lt;Bound&lt;PyAny&gt;&gt; {
 ///     // Rc is !Send so it cannot be passed into pyo3_asyncio::generic::future_into_py
 ///     let secs = Rc::new(secs);
 ///

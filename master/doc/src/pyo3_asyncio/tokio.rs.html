@@ -1133,7 +1133,7 @@
 ///
 /// /// Awaitable sleep function
 /// #[pyfunction]
-/// fn sleep_for&lt;'p&gt;(py: Python&lt;'p&gt;, secs: &amp;'p PyAny) -&gt; PyResult&lt;&amp;'p PyAny&gt; {
+/// fn sleep_for&lt;'p&gt;(py: Python&lt;'p&gt;, secs: Bound&lt;'p, PyAny&gt;) -&gt; PyResult&lt;Bound&lt;'p, PyAny&gt;&gt; {
 ///     let secs = secs.extract()?;
 ///     pyo3_asyncio::tokio::future_into_py_with_locals(
 ///         py,
@@ -1187,7 +1187,7 @@
 ///
 /// /// Awaitable sleep function
 /// #[pyfunction]
-/// fn sleep_for&lt;'p&gt;(py: Python&lt;'p&gt;, secs: &amp;'p PyAny) -&gt; PyResult&lt;&amp;'p PyAny&gt; {
+/// fn sleep_for&lt;'p&gt;(py: Python&lt;'p&gt;, secs: Bound&lt;'p, PyAny&gt;) -&gt; PyResult&lt;Bound&lt;'p, PyAny&gt;&gt; {
 ///     let secs = secs.extract()?;
 ///     pyo3_asyncio::tokio::future_into_py(py, async move {
 ///         tokio::time::sleep(Duration::from_secs(secs)).await;
@@ -1234,7 +1234,7 @@
 ///
 /// /// Awaitable non-send sleep function
 /// #[pyfunction]
-/// fn sleep_for(py: Python, secs: u64) -&gt; PyResult&lt;&amp;PyAny&gt; {
+/// fn sleep_for(py: Python, secs: u64) -&gt; PyResult&lt;Bound&lt;PyAny&gt;&gt; {
 ///     // Rc is non-send so it cannot be passed into pyo3_asyncio::tokio::future_into_py
 ///     let secs = Rc::new(secs);
 ///
@@ -1324,7 +1324,7 @@
 ///
 /// /// Awaitable non-send sleep function
 /// #[pyfunction]
-/// fn sleep_for(py: Python, secs: u64) -&gt; PyResult&lt;&amp;PyAny&gt; {
+/// fn sleep_for(py: Python, secs: u64) -&gt; PyResult&lt;Bound&lt;PyAny&gt;&gt; {
 ///     // Rc is non-send so it cannot be passed into pyo3_asyncio::tokio::future_into_py
 ///     let secs = Rc::new(secs);
 ///     pyo3_asyncio::tokio::local_future_into_py(py, async move {
