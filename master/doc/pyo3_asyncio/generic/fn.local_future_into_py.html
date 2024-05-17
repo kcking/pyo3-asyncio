@@ -31,7 +31,7 @@ synchronous function, and restore the previous context when it returns or raises
 
 <span class="doccomment">/// Awaitable sleep function
 </span><span class="attr">#[pyfunction]
-</span><span class="kw">fn </span>sleep_for(py: Python, secs: u64) -&gt; PyResult&lt;<span class="kw-2">&amp;</span>PyAny&gt; {
+</span><span class="kw">fn </span>sleep_for(py: Python, secs: u64) -&gt; PyResult&lt;Bound&lt;PyAny&gt;&gt; {
     <span class="comment">// Rc is !Send so it cannot be passed into pyo3_asyncio::generic::future_into_py
     </span><span class="kw">let </span>secs = Rc::new(secs);
 

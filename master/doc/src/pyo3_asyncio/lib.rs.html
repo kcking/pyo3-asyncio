@@ -1305,7 +1305,7 @@
 /// ```
 </span><span class="kw">pub fn </span>into_future_with_locals(
     locals: <span class="kw-2">&amp;</span>TaskLocals,
-    awaitable: <span class="kw-2">&amp;</span>PyAny,
+    awaitable: Bound&lt;PyAny&gt;,
 ) -&gt; PyResult&lt;<span class="kw">impl </span>Future&lt;Output = PyResult&lt;PyObject&gt;&gt; + Send&gt; {
     <span class="kw">let </span>py = awaitable.py();
     <span class="kw">let </span>(tx, rx) = oneshot::channel();
